@@ -82,7 +82,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
           (err) => {
             if (err) throw err;
             console.log(
-              `\nCompatibility scores written to ${path.join(
+              `Compatibility scores written to ${path.join(
                 folder.folder,
                 "compatibility.json"
               )}`
@@ -92,7 +92,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
       }
 
       const endTime = Date.now();
-      console.log(`\nTotal time taken: ${endTime - startTime}ms`);
+      console.log(`\nTotal time taken: ${endTime - startTime}ms\n`);
     })
     .catch((err) => {
       console.error(err);
@@ -109,7 +109,9 @@ function getCompatibilityScore(
     let colorDistance = 100 - Math.floor(color1.deltaE2000(color2));
     return `${colorDistance.toFixed(0)}%`;
   } catch (error) {
-    console.error("Could not parse rgb() as a color. This is a known issue with full white images. Returning ? instead.");
+    console.error(
+      "Could not parse rgb() as a color. This is a known issue with full white images. Returning ? instead."
+    );
     return "?";
   }
 }
