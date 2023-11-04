@@ -6,7 +6,7 @@ Our open-source color matching technology to be used to give you the recommendat
 2. Install packages i prefer [pnpm](https://pnpm.io/) so `pnpm install`.
 3. Then create subfolders in assets/ and upload atleast 2 images.
 4. Run either by `pnpm run dev` or `bun run`.
-5. For support, questions or else join our [discord](https://discord.com/invite/f4KEs5TVz2).
+5. For support, questions or else join our [Discord](https://discord.com/invite/f4KEs5TVz2).
 
 ## Dependencies
 - [node-vibrant](https://www.npmjs.com/package/node-vibrant) - used to extract colors from images in the getColors function.
