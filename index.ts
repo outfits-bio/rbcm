@@ -33,17 +33,12 @@ fs.readdir(imageDir, (err, files) => {
             const compatibilityScores: Compatibility[] = [];
 
             function getCompatibilityScore(image1: { name: string, colors: string[] }, image2: { name: string, colors: string[] }): string {
-                const matches = image1.colors.reduce((total, color) => {
-                    if (image2.colors.includes(color)) {
-                        return total + 1;
-                    }
-                    return total;
-                }, 0);
                 const totalColors = image1.colors.length;
+                const matches = image1.colors.filter(color => image2.colors.includes(color)).length;
                 const compatibility = (matches / totalColors) * 100;
                 return `${compatibility.toFixed(0)}%`;
             }
-
+            
             const startTime = Date.now();
 
             const totalCombinations = (images.length * (images.length - 1));
