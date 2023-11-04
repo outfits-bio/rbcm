@@ -129,6 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-
-assets/**
+assets/outfits
+assets/example/compatibility.json
 .DS_Store
