@@ -110,6 +110,6 @@ function getCompatibilityScore(
     return `${colorDistance.toFixed(0)}%`;
   } catch (error) {
     console.error(error);
-    return "Error calculating compatibility score";
+    return "?";
   }
 }
