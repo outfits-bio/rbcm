@@ -51,7 +51,7 @@ fs.readdir(imageDir, (err, files) => {
             const totalCombinations = (images.length * (images.length - 1));
             let currentCombination = 0;
 
-            console.log(`Calculating compatibility scores for ${totalCombinations} combinations...`);
+            console.log(`Calculating compatibility scores for ${totalCombinations} combinations...\n`);
 
             for (let i = 0; i < images.length; i++) {
                 const row: Compatibility[] = [];
@@ -60,7 +60,6 @@ fs.readdir(imageDir, (err, files) => {
                         const compatibility = getCompatibilityScore(images[i], images[j]);
                         row.push({ name1: images[i].name, name2: images[j].name, compatibility });
                         currentCombination++;
-                        const percentage = Math.floor((currentCombination / totalCombinations) * 100);
                     }
                 }
                 compatibilityScores.push(...row);
