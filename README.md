@@ -10,6 +10,6 @@ Our open-source color matching technology to be used to give you the recommendat
 
 ## Dependencies
 - [node-vibrant](https://www.npmjs.com/package/node-vibrant) - used to extract colors from images in the getColors function.
-- [colorjs.io](https://colorjs.io/) - used for the math behind color differences.
+- [colorjs.io](https://colorjs.io/) - used for the math behind color similarity.
 - [fs](https://github.com/npm/fs) - used to write the data in .json files.
 - [path](https://www.npmjs.com/package/path) - used to find paths easily.
