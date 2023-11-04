@@ -1,4 +1,5 @@
 import Vibrant from "node-vibrant";
+import Color from "colorjs.io";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -99,13 +100,11 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
 });
 
 function getCompatibilityScore(
-  image1: { name: string; colors: string[] },
-  image2: { name: string; colors: string[] }
+  image1: { colors: string[] },
+  image2: { colors: string[] }
 ): string {
-  const totalColors = image1.colors.length;
-  const matches = image1.colors.filter((color) =>
-    image2.colors.includes(color)
-  ).length;
-  const compatibility = (matches / totalColors) * 100;
-  return `${compatibility.toFixed(0)}%`;
+  let color1 = new Color(`rgb(${image1.colors})`);
+  let color2 = new Color(`rgb(${image2.colors})`);
+  let colorDistance = 100 - Math.floor(color1.deltaE2000(color2));
+  return `${colorDistance.toFixed(0)}%`; 
 }
