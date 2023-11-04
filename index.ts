@@ -13,11 +13,11 @@ interface Compatibility {
 function getColors(filePath: string): Promise<{ dominant: string, other: string[] }> {
     return Vibrant.from(filePath).getPalette()
         .then(palette => {
-            const dominant = palette.Vibrant.getHex();
+            const dominant = palette.Vibrant.getRgb().toString();
             const other = Object.values(palette)
-                .filter(color => color && color.getHex() !== dominant)
+                .filter(color => color && color.getRgb().toString() !== dominant)
                 .slice(0, MAX_COLORS)
-                .map(color => color.getHex());
+                .map(color => color.getRgb().toString());
             return { dominant, other };
         });
 }
