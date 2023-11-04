@@ -8,14 +8,13 @@ interface Compatibility {
     compatibility: string;
 }
 
-function getColors(filePath: string): Promise<{ dominant: string, other: string[] }> {
+function getColors(filePath: string): Promise<{ colors: string[] }> {
     return Vibrant.from(filePath).getPalette()
         .then(palette => {
-            const dominant = palette.Vibrant.getRgb().toString();
-            const other = Object.values(palette)
-                .filter(color => color && color.getRgb().toString() !== dominant)
+            const colors = Object.values(palette)
+                .filter(color => color)
                 .map(color => color.getRgb().toString());
-            return { dominant, other };
+            return { colors };
         });
 }
 
@@ -26,23 +25,22 @@ fs.readdir(imageDir, (err, files) => {
 
     const promises = files.map(file => {
         const filePath = path.join(imageDir, file);
-        return getColors(filePath).then(colors => ({ name: file, colors }));
+        return getColors(filePath).then(colors => ({ name: file, colors: colors.colors }));
     });
 
     Promise.all(promises)
         .then(images => {
             const compatibilityScores: Compatibility[] = [];
 
-            function getCompatibilityScore(image1: { name: string, colors: { dominant: string, other: string[] } }, image2: { name: string, colors: { dominant: string, other: string[] } }): string {
-                const dominantMatch = image1.colors.dominant === image2.colors.dominant ? 1 : 0;
-                const otherMatches = image1.colors.other.reduce((total, color) => {
-                    if (image2.colors.other.includes(color)) {
+            function getCompatibilityScore(image1: { name: string, colors: string[] }, image2: { name: string, colors: string[] }): string {
+                const matches = image1.colors.reduce((total, color) => {
+                    if (image2.colors.includes(color)) {
                         return total + 1;
                     }
                     return total;
                 }, 0);
-                const totalColors = image1.colors.other.length + 1;
-                const compatibility = ((dominantMatch + otherMatches) / totalColors) * 100;
+                const totalColors = image1.colors.length;
+                const compatibility = (matches / totalColors) * 100;
                 return `${compatibility.toFixed(0)}%`;
             }
 
