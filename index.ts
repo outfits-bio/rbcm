@@ -109,7 +109,7 @@ function getCompatibilityScore(
     let colorDistance = 100 - Math.floor(color1.deltaE2000(color2));
     return `${colorDistance.toFixed(0)}%`;
   } catch (error) {
-    console.error(error);
+    console.error("Could not parse rgb() as a color. This is a known issue with full white images. Returning ? instead.");
     return "?";
   }
 }
