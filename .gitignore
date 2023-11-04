@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 assets/outfits
-assets/example/compatibility.json
+assets/example/similarity.json
 .DS_Store
