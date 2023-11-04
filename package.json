@@ -1,0 +1,17 @@
+{
+  "name": "rbcm",
+  "version": "1.0.0",
+  "description": "recommendations by color matching",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "bun run ."
+  },
+  "keywords": [],
+  "author": "outfits.bio",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "node-vibrant": "3.2.1-alpha.1",
+    "path": "^0.12.7"
+  }
+}
