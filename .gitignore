@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 
-assets/outfits/*
+assets/**
 .DS_Store

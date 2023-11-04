@@ -19,70 +19,93 @@ function getColors(filePath: string): Promise<{ colors: string[] }> {
     });
 }
 
-const imageDir = path.join(__dirname, "assets", "outfits");
+const assetsDir = path.join(__dirname, "assets");
 
-fs.readdir(imageDir, (err, files) => {
+fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
   if (err) throw err;
 
-  const promises = files.map((file) => {
-    const filePath = path.join(imageDir, file);
-    return getColors(filePath).then((colors) => ({
-      name: file,
-      colors: colors.colors,
-    }));
-  });
+  const promises = folders
+    .filter((folder) => folder.isDirectory())
+    .map((folder) => {
+      const imageDir = path.join(assetsDir, folder.name);
+      return fs.promises.readdir(imageDir).then((files) => {
+        const promises = files
+          .filter((file) => /\.(png|jpe?g)$/i.test(file)) // filter out files that do not have .png or .jpg extensions
+          .map((file) => {
+            const filePath = path.join(imageDir, file);
+            return getColors(filePath).then((colors) => ({
+              name: file,
+              colors: colors.colors,
+            }));
+          });
+        return Promise.all(promises).then((images) => ({
+          folder: folder.name,
+          images,
+        }));
+      });
+    });
 
   Promise.all(promises)
-    .then((images) => {
-      const compatibilityScores: Compatibility[] = [];
-
-      function getCompatibilityScore(
-        image1: { name: string; colors: string[] },
-        image2: { name: string; colors: string[] }
-      ): string {
-        const totalColors = image1.colors.length;
-        const matches = image1.colors.filter((color) =>
-          image2.colors.includes(color)
-        ).length;
-        const compatibility = (matches / totalColors) * 100;
-        return `${compatibility.toFixed(0)}%`;
-      }
-
+    .then((folders) => {
       const startTime = Date.now();
 
-      const totalCombinations = images.length * (images.length - 1);
-      let currentCombination = 0;
+      console.log(`Calculating compatibility scores...\n`);
 
-      console.log(
-        `Calculating compatibility scores for ${totalCombinations} combinations...\n`
-      );
+      for (const folder of folders) {
+        const compatibilityScoresFolder: Compatibility[] = [];
 
-      for (let i = 0; i < images.length; i++) {
-        const row: Compatibility[] = [];
-        for (let j = 0; j < images.length; j++) {
-          if (i !== j) {
-            const compatibility = getCompatibilityScore(images[i], images[j]);
-            row.push({
-              name1: images[i].name,
-              name2: images[j].name,
-              compatibility,
-            });
-            currentCombination++;
+        console.log(`Folder: ${folder.folder}`);
+
+        for (let i = 0; i < folder.images.length; i++) {
+          const row: Compatibility[] = [];
+          for (let j = 0; j < folder.images.length; j++) {
+            if (i !== j) {
+              const compatibility = getCompatibilityScore(
+                folder.images[i],
+                folder.images[j]
+              );
+              row.push({
+                name1: folder.images[i].name,
+                name2: folder.images[j].name,
+                compatibility,
+              });
+            }
           }
+          compatibilityScoresFolder.push(...row);
         }
-        compatibilityScores.push(...row);
+
+        const json = JSON.stringify(compatibilityScoresFolder);
+        fs.writeFile(
+          path.join(assetsDir, folder.folder, "compatibility.json"),
+          json,
+          (err) => {
+            if (err) throw err;
+            console.log(
+              `\nCompatibility scores written to ${path.join(
+                folder.folder,
+                "compatibility.json"
+              )}`
+            );
+          }
+        );
       }
 
-      const json = JSON.stringify(compatibilityScores);
-      fs.writeFile("compatibility.json", json, (err) => {
-        if (err) throw err;
-        console.log("\nCompatibility scores written to compatibility.json");
-        const endTime = Date.now();
-        console.log(`Total time taken: ${endTime - startTime}ms`);
-      });
-      console.log(compatibilityScores);
+      const endTime = Date.now();
+      console.log(`\nTotal time taken: ${endTime - startTime}ms`);
     })
     .catch((err) => {
       console.error(err);
     });
 });
+
+function getCompatibilityScore(
+  image1: { name: string; colors: string[] },
+  image2: { name: string; colors: string[] }
+): string {
+  const totalColors = image1.colors.length;
+  const matches = image1.colors.filter((color) =>
+    image2.colors.includes(color)
+  ).length;
+  const compatibility = (matches / totalColors) * 100;
+  return `${compatibility.toFixed(0)}%`;
+}
