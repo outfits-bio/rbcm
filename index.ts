@@ -3,10 +3,10 @@ import Color from "colorjs.io";
 import * as fs from "fs";
 import * as path from "path";
 
-interface Compatibility {
+interface Similarity {
   name1: string;
   name2: string;
-  compatibility: string;
+  similarity: string;
 }
 
 function getColors(filePath: string): Promise<{ colors: string[] }> {
@@ -50,41 +50,41 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
     .then((folders) => {
       const startTime = Date.now();
 
-      console.log(`Calculating compatibility scores...\n`);
+      console.log(`Calculating similarity scores...\n`);
 
       for (const folder of folders) {
-        const compatibilityScoresFolder: Compatibility[] = [];
+        const similarityScoresFolder: Similarity[] = [];
 
         console.log(`Folder: ${folder.folder}`);
 
         for (let i = 0; i < folder.images.length; i++) {
-          const row: Compatibility[] = [];
+          const row: Similarity[] = [];
           for (let j = 0; j < folder.images.length; j++) {
             if (i !== j) {
-              const compatibility = getCompatibilityScore(
+              const similarity = getSimilarityScore(
                 folder.images[i],
                 folder.images[j]
               );
               row.push({
                 name1: folder.images[i].name,
                 name2: folder.images[j].name,
-                compatibility,
+                similarity,
               });
             }
           }
-          compatibilityScoresFolder.push(...row);
+          similarityScoresFolder.push(...row);
         }
 
-        const json = JSON.stringify(compatibilityScoresFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
+        const json = JSON.stringify(similarityScoresFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
         fs.writeFile(
-          path.join(assetsDir, folder.folder, "compatibility.json"),
+          path.join(assetsDir, folder.folder, "similarity.json"),
           json,
           (err) => {
             if (err) throw err;
             console.log(
-              `Compatibility scores written to ${path.join(
+              `Similarity scores written to ${path.join(
                 folder.folder,
-                "compatibility.json"
+                "similarity.json"
               )}`
             );
           }
@@ -100,7 +100,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
 });
 
 let errorCount = 0;
-function getCompatibilityScore(
+function getSimilarityScore(
   image1: { colors: string[] },
   image2: { colors: string[] }
 ): string {

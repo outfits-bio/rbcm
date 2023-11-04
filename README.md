@@ -1,5 +1,5 @@
 # Recommendations by color matching (rbcm)
-Our open-source color matching technology to be used to give you the recommendations by comparing the compatibility of posts you liked with other posts by matching the % of similarity.
+Our open-source color matching technology to be used to give you the recommendations by comparing the posts you liked with other posts by matching the % of color similarity.
 
 ## How to use?
 1. Install our [bun](https://bun.sh/) (fast runtime with built-in typescript support) i prefer using.
