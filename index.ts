@@ -75,7 +75,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
           similarityPercentagesFolder.push(...row);
         }
 
-        const json = JSON.stringify(similarityPercentagesFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
+        const json = JSON.stringify(similarityPercentagesFolder); // add ", null, 4" right after similarityPercentagesFolder for pretty printing. not recommended for production or people with alot of images in one folder.
         fs.writeFile(
           path.join(assetsDir, folder.folder, "similarity.json"),
           json,
