@@ -132,3 +132,4 @@ dist
 
 assets/outfits/*
 .DS_Store
+compatibility.json
