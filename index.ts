@@ -99,6 +99,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
     });
 });
 
+let errorCount = 0;
 function getCompatibilityScore(
   image1: { colors: string[] },
   image2: { colors: string[] }
@@ -110,7 +111,7 @@ function getCompatibilityScore(
     return `${colorDistance.toFixed(0)}%`;
   } catch (error) {
     console.error(
-      "Could not parse rgb() as a color. This is a known issue with full white images. Returning ? instead."
+      `Could not parse rgb() as a color. This is a known issue with full white images. Returning ? instead. (${++errorCount})`
     );
     return "?";
   }
