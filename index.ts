@@ -75,7 +75,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
           compatibilityScoresFolder.push(...row);
         }
 
-        const json = JSON.stringify(compatibilityScoresFolder, null, 4); // remove null, 4 for minification
+        const json = JSON.stringify(compatibilityScoresFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
         fs.writeFile(
           path.join(assetsDir, folder.folder, "compatibility.json"),
           json,
