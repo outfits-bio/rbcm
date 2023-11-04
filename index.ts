@@ -2,8 +2,6 @@ import Vibrant from 'node-vibrant';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const MAX_COLORS = 10;
-
 interface Compatibility {
     name1: string;
     name2: string;
@@ -16,7 +14,6 @@ function getColors(filePath: string): Promise<{ dominant: string, other: string[
             const dominant = palette.Vibrant.getRgb().toString();
             const other = Object.values(palette)
                 .filter(color => color && color.getRgb().toString() !== dominant)
-                .slice(0, MAX_COLORS)
                 .map(color => color.getRgb().toString());
             return { dominant, other };
         });
