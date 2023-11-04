@@ -129,6 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+assets/example.gif
 assets/outfits
 assets/example/similarity.json
 .DS_Store

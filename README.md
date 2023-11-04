@@ -15,4 +15,4 @@ Our open-source color matching technology to be used to give you the recommendat
 - [path](https://www.npmjs.com/package/path) - used to find paths easily.
 
 ## Example footage
-![Example Footage Gif](https://github.com/outfits-bio/rbcm/blob/92df5b5353cc3691c5eeec484dafa2472c2f0c89/assets/example.gif)
+![Example Footage Gif](https://github.com/outfits-bio/rbcm/blob/main/assets/example.gif)
