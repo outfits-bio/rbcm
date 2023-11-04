@@ -75,7 +75,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
           compatibilityScoresFolder.push(...row);
         }
 
-        const json = JSON.stringify(compatibilityScoresFolder);
+        const json = JSON.stringify(compatibilityScoresFolder, null, 4); // remove null, 4 for minification
         fs.writeFile(
           path.join(assetsDir, folder.folder, "compatibility.json"),
           json,
