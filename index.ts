@@ -31,7 +31,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
       const imageDir = path.join(assetsDir, folder.name);
       return fs.promises.readdir(imageDir).then((files) => {
         const promises = files
-          .filter((file) => /\.(png|jpe?g)$/i.test(file)) 
+          .filter((file) => /\.(png|jpe?g)$/i.test(file))
           .map((file) => {
             const filePath = path.join(imageDir, file);
             return getColors(filePath).then((colors) => ({
@@ -103,8 +103,13 @@ function getCompatibilityScore(
   image1: { colors: string[] },
   image2: { colors: string[] }
 ): string {
-  let color1 = new Color(`rgb(${image1.colors})`);
-  let color2 = new Color(`rgb(${image2.colors})`);
-  let colorDistance = 100 - Math.floor(color1.deltaE2000(color2));
-  return `${colorDistance.toFixed(0)}%`; 
+  try {
+    let color1 = new Color(`rgb(${image1.colors})`);
+    let color2 = new Color(`rgb(${image2.colors})`);
+    let colorDistance = 100 - Math.floor(color1.deltaE2000(color2));
+    return `${colorDistance.toFixed(0)}%`;
+  } catch (error) {
+    console.error(error);
+    return "Error calculating compatibility score";
+  }
 }
