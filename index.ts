@@ -50,10 +50,10 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
     .then((folders) => {
       const startTime = Date.now();
 
-      console.log(`Calculating similarity scores...\n`);
+      console.log(`Calculating similarity percentages...\n`);
 
       for (const folder of folders) {
-        const similarityScoresFolder: Similarity[] = [];
+        const similarityPercentagesFolder: Similarity[] = [];
 
         console.log(`Folder: ${folder.folder}`);
 
@@ -61,7 +61,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
           const row: Similarity[] = [];
           for (let j = 0; j < folder.images.length; j++) {
             if (i !== j) {
-              const similarity = getSimilarityScore(
+              const similarity = getSimilarityPercentage(
                 folder.images[i],
                 folder.images[j]
               );
@@ -72,17 +72,17 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
               });
             }
           }
-          similarityScoresFolder.push(...row);
+          similarityPercentagesFolder.push(...row);
         }
 
-        const json = JSON.stringify(similarityScoresFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
+        const json = JSON.stringify(similarityPercentagesFolder); // add , null, 4 for pretty printing. not recommended for production or people with alot of images in one folder.
         fs.writeFile(
           path.join(assetsDir, folder.folder, "similarity.json"),
           json,
           (err) => {
             if (err) throw err;
             console.log(
-              `Similarity scores written to ${path.join(
+              `Similarity percentages written to ${path.join(
                 folder.folder,
                 "similarity.json"
               )}`
@@ -100,7 +100,7 @@ fs.readdir(assetsDir, { withFileTypes: true }, (err, folders) => {
 });
 
 let errorCount = 0;
-function getSimilarityScore(
+function getSimilarityPercentage(
   image1: { colors: string[] },
   image2: { colors: string[] }
 ): string {
