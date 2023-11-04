@@ -13,3 +13,6 @@ Our open-source color matching technology to be used to give you the recommendat
 - [colorjs.io](https://colorjs.io/) - used for the math behind color similarity.
 - [fs](https://github.com/npm/fs) - used to write the data in .json files.
 - [path](https://www.npmjs.com/package/path) - used to find paths easily.
+
+## Example footage
+![Example Footage Gif](https://github.com/outfits-bio/rbcm/blob/92df5b5353cc3691c5eeec484dafa2472c2f0c89/assets/example.gif)
