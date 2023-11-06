@@ -5,7 +5,7 @@ Our open-source color matching technology to be used to give you the recommendat
 1. Install our [bun](https://bun.sh/) (fast runtime with built-in typescript support) i prefer using.
 2. Install packages i prefer [pnpm](https://pnpm.io/) so `pnpm install`.
 3. Then create subfolders in assets/ and upload atleast 2 images.
-4. Run either by `pnpm run dev` or `bun run`.
+4. Run either by `pnpm run dev` or `bun run .`.
 5. For support, questions or else join our [Discord](https://discord.com/invite/f4KEs5TVz2).
 
 ## Dependencies
